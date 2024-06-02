@@ -8,12 +8,16 @@ class CustomTextfield extends StatelessWidget {
   final IconData? icon;
   final String? hintText;
   final bool obscureText;
+  final void Function(String?)? callback;
+  final TextEditingController? controller;
   const CustomTextfield(
       {super.key,
       this.label,
       this.icon,
       this.hintText,
-      this.obscureText = false});
+      this.obscureText = false,
+      this.callback,
+      this.controller});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,10 +29,14 @@ class CustomTextfield extends StatelessWidget {
         ),
         TextField(
           obscureText: obscureText,
+          controller: controller,
           cursorColor: AppColors.primaryThirdElementText,
           decoration: InputDecoration(
             hintText: hintText,
-            prefixIcon: Icon(icon ?? Icons.place, color: Colors.black,),
+            prefixIcon: Icon(
+              icon ?? Icons.place,
+              color: Colors.black,
+            ),
             hintStyle: TextStyle(
                 fontSize: 12.sp, color: AppColors.primaryThirdElementText),
             focusedBorder: OutlineInputBorder(
@@ -46,6 +54,7 @@ class CustomTextfield extends StatelessWidget {
                   const BorderSide(color: AppColors.primaryThirdElementText),
             ),
           ),
+          onChanged: callback,
         )
       ],
     );

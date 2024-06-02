@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:learnhub/models/welcome_item.dart';
@@ -36,50 +35,51 @@ class WelcomePage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.7,
-            child: PageView.builder(
-              controller: controller,
-              onPageChanged: (value) {
-                ref.read(indexProvider.notifier).setIndex(value);
-              },
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                return AppOnboardingItem(item: items[index]);
-              },
-            ),
-          ),
-          Dots(
-            currenIndex: currentIndex,
-          ),
-          SizedBox(
-            height: 15.h,
-          ),
-          SizedBox(
-            width: 140.w,
-            child: ElevatedButton(
-              onPressed: () {
-                currentIndex != 2
-                    ? controller.nextPage(
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeInOut)
-                    : Navigator.of(context).pushReplacementNamed("/login");
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryElement,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              child: Text(
-                currentIndex != 2 ? "Next" : "Done",
-                style: const TextStyle(color: Colors.white),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: PageView.builder(
+                controller: controller,
+                onPageChanged: (value) {
+                  ref.read(indexProvider.notifier).setIndex(value);
+                },
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  return AppOnboardingItem(item: items[index]);
+                },
               ),
             ),
-          )
-        ],
-      )),
+            Dots(
+              currenIndex: currentIndex,
+            ),
+            SizedBox(
+              height: 15.h,
+            ),
+            SizedBox(
+              width: 140.w,
+              child: ElevatedButton(
+                onPressed: () {
+                  currentIndex != 2
+                      ? controller.nextPage(
+                          duration: const Duration(milliseconds: 400),
+                          curve: Curves.easeInOut)
+                      : Navigator.of(context).pushReplacementNamed("/login");
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryElement,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child: Text(
+                  currentIndex != 2 ? "Next" : "Done",
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

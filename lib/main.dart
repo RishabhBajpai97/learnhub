@@ -1,11 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:learnhub/pages/login/login.dart';
+import 'package:learnhub/firebase_options.dart';
+import 'package:learnhub/pages/auth/login/login.dart';
+import 'package:learnhub/pages/auth/signup/signup.dart';
 import 'package:learnhub/pages/welcome/welcome.dart';
 import 'package:learnhub/shared/utils/app_theme.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -27,18 +32,16 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) {
         return GestureDetector(
           onTap: () {
-            FocusScopeNode currentFocus = FocusScope.of(context);
-            if (!currentFocus.hasPrimaryFocus) {
-              currentFocus.unfocus();
-            }
+            FocusManager.instance.primaryFocus?.unfocus();
           },
           child: MaterialApp(
             theme: AppTheme.theme,
             debugShowCheckedModeBanner: false,
             initialRoute: "/welcome",
-            routes: {
+            routes: <String, WidgetBuilder>{
               "/welcome": (context) => WelcomePage(),
-              "/login": (context) => const LoginPage()
+              "/login": (context) => const LoginPage(),
+              "/signup": (context) => const SignUpPage(),
             },
           ),
         );
